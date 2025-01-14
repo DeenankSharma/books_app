@@ -26,4 +26,18 @@ class ErrorEvent extends DetailsEvent {
   });
 }
 
-class DownloadEpubEvent extends DetailsEvent {}
+class DownloadEpubEvent extends DetailsEvent {
+  final String link;
+  final BookModel book;
+  DownloadEpubEvent({required this.link, required this.book});
+}
+
+class DownloadErrorEvent extends DetailsEvent {
+  final String error;
+  final BookModel book;
+
+  DownloadErrorEvent({
+    required this.error,
+    required this.book,
+  });
+}

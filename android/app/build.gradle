@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace "com.example.flutter_file_downloader"
     namespace = "com.example.untitled1"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion

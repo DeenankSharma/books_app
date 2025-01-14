@@ -21,11 +21,31 @@ class DetailsErrorState extends DetailsState {
   });
 }
 
+class DownloadErrorState extends DetailsState {
+  final String error;
+  final BookModel book;
+
+  DownloadErrorState({
+    required this.error,
+    required this.book,
+  });
+}
+
 class ReadOnlineState extends DetailsState {
   final String url;
   final BookModel book;
 
   ReadOnlineState({
+    required this.url,
+    required this.book,
+  });
+}
+
+class DownloadEpubState extends DetailsState {
+  final String url;
+  final BookModel book;
+
+  DownloadEpubState({
     required this.url,
     required this.book,
   });

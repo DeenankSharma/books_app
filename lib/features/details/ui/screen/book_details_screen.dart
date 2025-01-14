@@ -19,9 +19,30 @@ class BookDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-            BlocConsumer<DetailsBloc, DetailsState>(listener: (context, state) {
+        body: BlocConsumer<DetailsBloc, DetailsState>(
+            listener: (context, state) async {
       if (state is DetailsErrorState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              state.error,
+              style: const TextStyle(
+                  color: Colors.amber, fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: Colors.brown.shade900,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(16),
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: 'Dismiss',
+              textColor: Colors.white,
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+            ),
+          ),
+        );
+      } else if (state is DownloadErrorState) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -64,6 +85,28 @@ class BookDetailsScreen extends StatelessWidget {
                 ),
               );
         }
+      } else if (state is DownloadEpubState) {
+        try {
+          final Uri url = Uri.parse(state.url);
+          // print(url);
+          launchUrl(url).then((launched) {
+            if (!launched) {
+              context.read<DetailsBloc>().add(
+                    DownloadErrorEvent(
+                      error: 'Could not open the download link',
+                      book: state.book,
+                    ),
+                  );
+            }
+          });
+        } catch (e) {
+          context.read<DetailsBloc>().add(
+                DownloadErrorEvent(
+                  error: 'Could not open the download link',
+                  book: state.book,
+                ),
+              );
+        }
       }
     }, builder: (context, state) {
       return Container(
@@ -100,13 +143,6 @@ class BookDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.share_rounded,
-                          color: Colors.brown.shade900,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -221,7 +257,14 @@ class BookDetailsScreen extends StatelessWidget {
                         if (book.getEpubUrl() != null)
                           Expanded(
                             child: ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<DetailsBloc>().add(
+                                    DownloadEpubEvent(
+                                        link:
+                                            book.formats['application/epub+zip']
+                                                as String,
+                                        book: book));
+                              },
                               icon: const Icon(
                                 Icons.download_rounded,
                                 color: Colors.amber,

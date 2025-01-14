@@ -34,7 +34,6 @@ class BookTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          // onTap: onExpand,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
