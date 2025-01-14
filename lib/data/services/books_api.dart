@@ -17,10 +17,9 @@ Future<List<BookModel>> fetchBooks() async {
     final Map<String, dynamic> responseData = response.data;
     print(responseData);
     final List<dynamic> results = responseData['results'] as List<dynamic>;
-    final List shortList = results.sublist(0, 26);
-    final List<BookModel> books = shortList
-        .map((book) => BookModel.fromJson(book as Map<String, dynamic>))
-        .toList();
+    // final List shortList = results.sublist(0, 26);
+    final List<BookModel> books =
+        results.map((book) => BookModel.fromJson(book as Map)).toList();
     return books;
   } catch (e) {
     print('Error fetching books: $e');

@@ -45,33 +45,51 @@ class BookModel {
     required this.downloadCount,
   });
 
-  factory BookModel.fromJson(Map<String, dynamic> json) {
+  factory BookModel.fromJson(dynamic json) {
+    List<dynamic> authorsList = json['authors'] ?? [];
+    List<dynamic> translatorsList = json['translators'] ?? [];
+    List<dynamic> subjectsList = json['subjects'] ?? [];
+    List<dynamic> bookshelfList = json['bookshelves'] ?? [];
+    List<dynamic> languagesList = json['languages'] ?? [];
+
+    Map<String, dynamic> formatsMap = json['formats'] ?? {};
+    Map<String, String> sanitizedFormats = {};
+    formatsMap.forEach((key, value) {
+      if (value != null) {
+        sanitizedFormats[key.toString()] = value.toString();
+      }
+    });
+
     return BookModel(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      authors: (json['authors'] as List<dynamic>)
-          .map((author) => AuthorModel.fromJson(author as Map<String, dynamic>))
+      id: json['id']?.toInt() ?? 0,
+      title: json['title']?.toString() ?? '',
+      authors:
+          authorsList.map((author) => AuthorModel.fromJson(author)).toList(),
+      translators: translatorsList
+          .map((translator) => translator?.toString() ?? '')
+          .where((str) => str.isNotEmpty)
           .toList(),
-      translators: (json['translators'] as List<dynamic>)
-          .map((translator) => translator as String)
+      subjects: subjectsList
+          .map((subject) => subject?.toString() ?? '')
+          .where((str) => str.isNotEmpty)
           .toList(),
-      subjects: (json['subjects'] as List<dynamic>)
-          .map((subject) => subject as String)
+      bookshelves: bookshelfList
+          .map((bookshelf) {
+            String shelf = bookshelf?.toString() ?? '';
+            return shelf.startsWith('Browsing: ')
+                ? shelf.substring('Browsing: '.length)
+                : shelf;
+          })
+          .where((str) => str.isNotEmpty)
           .toList(),
-      bookshelves: (json['bookshelves'] as List<dynamic>).map((bookshelf) {
-        String shelf = bookshelf as String;
-        return shelf.startsWith('Browsing: ')
-            ? shelf.substring('Browsing: '.length)
-            : shelf;
-      }).toList(),
-      languages: (json['languages'] as List<dynamic>)
-          .map((language) => language as String)
+      languages: languagesList
+          .map((language) => language?.toString() ?? '')
+          .where((str) => str.isNotEmpty)
           .toList(),
-      copyright: json['copyright'] as bool,
-      mediaType: json['media_type'] as String,
-      formats: Map<String, String>.from(
-          json['formats'] as Map), // Ensure correct typing
-      downloadCount: json['download_count'] as int,
+      copyright: json['copyright'] == true,
+      mediaType: json['media_type']?.toString() ?? '',
+      formats: sanitizedFormats,
+      downloadCount: json['download_count']?.toInt() ?? 0,
     );
   }
 

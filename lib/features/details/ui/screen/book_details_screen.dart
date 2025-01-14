@@ -7,14 +7,15 @@ import 'package:untitled1/features/details/ui/components/chip.dart';
 import 'package:untitled1/features/details/ui/components/section.dart';
 import 'package:untitled1/features/details/ui/components/statchip.dart';
 import 'package:untitled1/features/home/bloc/home_bloc.dart';
+import 'package:untitled1/features/search/bloc/search_bloc.dart';
+import 'package:untitled1/features/search/bloc/search_event.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookDetailsScreen extends StatelessWidget {
-  const BookDetailsScreen({
-    super.key,
-    required this.book,
-  });
+  const BookDetailsScreen(
+      {super.key, required this.book, required this.from_where});
   final BookModel book;
+  final String from_where;
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +135,13 @@ class BookDetailsScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          context.read<HomeBloc>().add(FetchBooksEvent());
-                          context.go('/home');
+                          if (from_where == 'home') {
+                            context.read<HomeBloc>().add(FetchBooksEvent());
+                            context.go('/home');
+                          } else if (from_where == 'search') {
+                            context.read<SearchBloc>().add(ClearSearchEvent());
+                            context.go('/search');
+                          }
                         },
                         icon: Icon(
                           Icons.arrow_back_ios_rounded,

@@ -19,7 +19,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.go('/search');
+            },
             icon: const Icon(
               Icons.search_rounded,
               size: 32,
@@ -157,7 +159,8 @@ class HomeScreen extends StatelessWidget {
                             language: book.getPrimaryLanguage(),
                             coverImageUrl: book.getCoverImageUrl() ?? '',
                             onExpand: () {
-                              context.go('/details', extra: book);
+                              context.go('/details',
+                                  extra: {'book': book, 'from_where': 'home'});
                             },
                           ),
                         );
