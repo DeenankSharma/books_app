@@ -59,7 +59,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Bookish',
+                    'BookHive',
                     style: TextStyle(
                       fontSize: 48,
                       fontFamily: 'Playfair Display',
