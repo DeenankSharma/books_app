@@ -107,17 +107,17 @@ lib/
 ## Screenshots
 
 ### Home Page
-![Home Page Screenshot](assets/screenshots/home_page.jpeg)
+![Home Page Screenshot](assets/home_page.jpeg)
 
 ### Book Details Page
-![Book Details Screenshot](assets/screenshots/book_details.jpeg)
+![Book Details Screenshot](assets/book_details.jpeg)
 
 ### Book Details Page - 2
-![Book Details Page (contd.)](assets/screenshots/book_details_II.jpeg)
+![Book Details Page (contd.)](assets/book_details_II.jpeg)
 
 ### Search Page
-![Search Page Screenshot](assets/screenshots/search_page.jpeg)
+![Search Page Screenshot](assets/search_page.jpeg)
 
 ### Search Result
-![Search Page Results Screenshot](assets/screenshots/search_page_result.jpeg)
+![Search Page Results Screenshot](assets/search_page_result.jpeg)
 
