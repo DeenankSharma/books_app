@@ -51,6 +51,7 @@ The app follows the **BLoC Architecture**, ensuring separation of concerns and a
 - **Flutter**: Version 3.x or later.
 - **Dart**: Version 2.19 or later.
 - **Android/iOS Emulator or Device**: For testing.
+- **ENV**: For url.
 
 ---
 
